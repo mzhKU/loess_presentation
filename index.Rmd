@@ -1,0 +1,61 @@
+---
+title       : Loess Fitting App Slidification
+subtitle    : Apply More Force
+author      : Martin Hediger, PhD
+framework   : html5slides   # {io2012, html5slides, shower, dzslides, ...}
+highlighter : highlight.js  # {highlight.js, prettify, highlight}
+hitheme     : tomorrow      # 
+widgets     : [mathjax]            # {mathjax, quiz, bootstrap}
+mode        : selfcontained # {standalone, draft}
+knit        : slidify::knit2slides
+---
+
+# Slidify Presentation of the Loess Fitting App #
+
+Martin Hediger, PhD
+
+--- .class #id 
+
+## Introduction
+
+[LOESS, originally proposed by Cleveland (1979) and further developed by Cleveland and Devlin (1988), specifically denotes a method that is also known as locally weighted polynomial regression.][id]
+
+The weighting function is given by
+
+$$ w(x) = (1- \left|x\right|^3)^3 I\left[\left|x\right| < 1\right]$$
+
+where $I$ is the indicator function.
+
+[id]: http://en.wikipedia.org/wiki/Local_regression
+
+---
+
+## Description of the app
+The application allows to see how `span_value` affects the fit.
+```{r, warning=FALSE}
+library(ElemStatLearn); data(ozone)
+ozone <- ozone[order(ozone$ozone), ]
+span_value=0.2; n_pred = 20
+sample_set            <- sample(1:n_pred, replace=TRUE)
+ozone_sampled         <- ozone[sample_set, ]
+ozone_sampled_ordered <- ozone_sampled[order(ozone_sampled$ozone), ]
+loess(temperature ~ ozone, data=ozone_sampled_ordered,
+                          span=span_value, na.action=na.omit)
+```
+
+---
+
+## Screenshot and link of the app
+[Application](https://mzhku.shinyapps.io/course_project/)
+![Screenshot](screenshot_loess_fitting_app.png)
+
+
+---
+
+## Conclusion and Outlook
+
+- During development, it was noticed that the locally used version of the application behaves differently from the online version. The reason for this is unknown
+- A nice feature to have would be to allow downloading the Loess table
+- Also it would be great if the user could select other variables to fit against each other
+
+Thanks for having a look at my application and my presentation.
